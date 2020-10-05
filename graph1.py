@@ -15,8 +15,8 @@ class Graph:
     def __init__(self):
         self.vertices ={}
     
-    def add_vertex(self, vertext_id):
-        self.vertices[vertext_id] = set()
+    def add_vertex(self, vertex_id):
+        self.vertices[vertex_id] = set()
     
     def add_edge(self, v1, v2):
         if v1 in self.vertices and v2 in self.vertices:
@@ -25,8 +25,8 @@ class Graph:
         else:
             raise IndexError("nonexistent vertex")
     
-    def get_neighbors(self, vertext_id):
-        return self.vertices[vertext_id]
+    def get_neighbors(self, vertex_id):
+        return self.vertices[vertex_id]
     
     def bft(self, starting_vertex_id):
         # Create an empty queue
