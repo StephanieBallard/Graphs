@@ -24,6 +24,12 @@ class Graph:
             # self.vertices[v2].add(v1) # automatically bidirectional, undirected 
         else:
             raise IndexError("nonexistent vertex")
+
+    def is_connected(self, v1, v2):
+        if v1 in self.vertices and v2 in self.vertices:
+            return v2 in self.vertices[v1]
+        else:
+            raise IndexError("nonexistent vertex")
     
     def get_neighbors(self, vertex_id):
         return self.vertices[vertex_id]
