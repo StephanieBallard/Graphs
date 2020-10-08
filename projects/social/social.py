@@ -1,3 +1,19 @@
+import random
+import math
+
+class Queue():
+    def __init__(self):
+        self.queue = []
+    def enqueue(self, value):
+        self.queue.append(value)
+    def dequeue(self):
+        if self.size() > 0:
+            return self.queue.pop(0)
+        else:
+            return None
+    def size(self):
+        return len(self.queue)
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -38,16 +54,25 @@ class SocialGraph:
 
         The number of users must be greater than the average number of friendships.
         """
+
         # Reset graph
         self.last_id = 0
         self.users = {}
         self.friendships = {}
         # !!!! IMPLEMENT ME
-
+        for i in range(0, num_users):
+            self.add_user(f"User {i}")
+        possible_friendships = []
+        # Create Friendships
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+        random.shuffle(possible_friendships)
         # Add users
-
-        # Create friendships
-
+        for i in range(0, math.floor(num_users * avg_friendships / 2)):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+        
     def get_all_social_paths(self, user_id):
         """
         Takes a user's user_id as an argument
@@ -57,8 +82,26 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
+        
         visited = {}  # Note that this is a dictionary, not a set
         # !!!! IMPLEMENT ME
+
+        # BFS
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            new_user_id = path[-1] # last index of the path
+            
+            if new_user_id not in visited:
+                visited[new_user_id] = path
+                for friend_id in self.friendships[new_user_id]:
+                    if friend_id not in visited:
+                        new_path = list(path)
+                        new_path.append(friend_id)
+                        q.enqueue(new_path)
+
         return visited
 
 
